@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    container_name: bookstore_sql
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrongPassword123!
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - sql_network
+    restart: unless-stopped
+
+volumes:
+  sql_data:
+
+networks:
+  sql_network:
+    driver: bridge
