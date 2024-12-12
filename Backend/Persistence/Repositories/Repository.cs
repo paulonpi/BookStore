@@ -15,9 +15,17 @@ public class Repository<T> : IRepository<T> where T : class
         DbSet = context.Set<T>();
     }
 
-    public async Task<T?> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(int id, string? includeProperties = null)  
     {
-        return await DbSet.FindAsync(id);
+        IQueryable<T> query = DbSet;
+
+        if (!string.IsNullOrEmpty(includeProperties))
+        {
+            query = includeProperties.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        }
+
+        return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()

@@ -41,8 +41,7 @@ public class BooksController : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] BookDto bookDto)
     {
-        if (id != bookDto.Id) return BadRequest();
-
+        bookDto.Id = id;
         await _bookService.UpdateAsync(bookDto);
         return NoContent();
     }

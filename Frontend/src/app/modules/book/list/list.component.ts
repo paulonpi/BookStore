@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../../services/book.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +17,10 @@ export class ListComponent implements OnInit {
   totalPages: number = 1;
   pageSize: number = 10;
 
-  constructor(private bookService: BookService) {}
+  constructor(
+    private bookService: BookService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadBooks();
@@ -50,5 +54,26 @@ export class ListComponent implements OnInit {
 
   getAuthorNames(authors: any[]): string {
     return authors.map(author => author.name).join(', ');
+  }
+
+  deleteBook(bookId: number) {
+    if (confirm('Are you sure you want to delete this book?')) {
+      this.bookService.deleteBook(bookId).subscribe({
+        next: () => {
+          this.books = this.books.filter(book => book.id !== bookId);
+        },
+        error: (error) => {
+          console.error('Error deleting book:', error);
+        }
+      });
+    }
+  }
+
+  editBook(id: number): void {
+    this.router.navigate(['/books/edit', id]);
+  }
+
+  addNewBook(): void {
+    this.router.navigate(['/books/add']);
   }
 }

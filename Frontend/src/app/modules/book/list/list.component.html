@@ -1,16 +1,28 @@
 <div class="book-list">
   <div class="book-list-header">
     <h2>Books Collection</h2>
-    <div class="book-count">{{books.length}} books found</div>
+    <div class="header-actions">
+      <button class="add-book-btn" (click)="addNewBook()">
+        <i class="fas fa-plus"></i> Add New Book
+      </button>
+      <div class="book-count">{{books.length}} books found</div>
+    </div>
   </div>
 
   <div class="book-grid">
-    <div class="book-card" *ngFor="let book of books">
-      <div class="book-cover">
-        <div class="book-spine"></div>
-      </div>
+    <div class="book-card compact" *ngFor="let book of books">
       <div class="book-content">
-        <h3 class="book-title">{{book.title}}</h3>
+        <div class="book-header">
+          <h3 class="book-title">{{book.title}}</h3>
+          <div class="book-actions">
+            <button class="action-btn edit-btn" (click)="editBook(book.id)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="action-btn delete-btn" (click)="deleteBook(book.id)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
         <div class="book-details">
           <p class="book-author"><i class="fas fa-user"></i> {{getAuthorNames(book.authors)}}</p>
           <p class="book-subject"><i class="fas fa-bookmark"></i> {{book.subject.name}}</p>

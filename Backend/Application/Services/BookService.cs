@@ -60,14 +60,25 @@ public class BookService : IBookService
 
     public async Task UpdateAsync(BookDto bookDto)
     {
-        var book = await _bookRepository.GetByIdAsync(bookDto.Id);
+        var book = await _bookRepository.GetByIdAsync(bookDto.Id, nameof(Book.Authors));
         if (book == null) throw new KeyNotFoundException("Book not found.");
 
-        var authors = await _authorRepository.GetAllAsync();
+        // Get all authors and filter in memory
+        var allAuthors = await _authorRepository.GetAllAsync();
+        var selectedAuthors = allAuthors.Where(a => bookDto.Authors.Select(dto => dto.Id).Contains(a.Id)).ToList();
+
         book.Title = bookDto.Title;
         book.Price = bookDto.Price;
         book.SubjectId = bookDto.Subject.Id;
-        book.Authors = authors.Where(a => bookDto.Authors.Select(dto => dto.Id).Contains(a.Id)).ToList();
+        
+        // Remove authors that are no longer selected
+        book.Authors.ToList().RemoveAll(author => !selectedAuthors.Contains(author));
+
+        // Add new authors that weren't previously included
+        foreach (var author in selectedAuthors.Where(author => !book.Authors.Contains(author)))
+        {
+            book.Authors.Add(author);
+        }
 
         await _bookRepository.UpdateAsync(book);
     }
