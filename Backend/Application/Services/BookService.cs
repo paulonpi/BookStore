@@ -24,8 +24,8 @@ public class BookService : IBookService
             Id = book.Id,
             Title = book.Title,
             Price = book.Price,
-            SubjectId = book.SubjectId,
-            AuthorIds = book.Authors.Select(a => a.Id).ToList()
+            Subject = new SubjectDto { Id = book.SubjectId, Name = book.Subject?.Name ?? string.Empty },
+            Authors = book.Authors.Select(a => new AuthorDto { Id = a.Id, Name = a.Name }).ToList()
         }).ToList();
     }
 
@@ -39,8 +39,8 @@ public class BookService : IBookService
             Id = book.Id,
             Title = book.Title,
             Price = book.Price,
-            SubjectId = book.SubjectId,
-            AuthorIds = book.Authors.Select(a => a.Id).ToList()
+            Subject = new SubjectDto { Id = book.SubjectId, Name = book.Subject?.Name ?? string.Empty },
+            Authors = book.Authors.Select(a => new AuthorDto { Id = a.Id, Name = a.Name }).ToList()
         };
     }
 
@@ -51,8 +51,8 @@ public class BookService : IBookService
         {
             Title = bookDto.Title,
             Price = bookDto.Price,
-            SubjectId = bookDto.SubjectId,
-            Authors = authors.Where(a => bookDto.AuthorIds.Contains(a.Id)).ToList()
+            SubjectId = bookDto.Subject.Id,
+            Authors = authors.Where(a => bookDto.Authors.Select(dto => dto.Id).Contains(a.Id)).ToList()
         };
 
         await _bookRepository.AddAsync(book);
@@ -66,8 +66,8 @@ public class BookService : IBookService
         var authors = await _authorRepository.GetAllAsync();
         book.Title = bookDto.Title;
         book.Price = bookDto.Price;
-        book.SubjectId = bookDto.SubjectId;
-        book.Authors = authors.Where(a => bookDto.AuthorIds.Contains(a.Id)).ToList();
+        book.SubjectId = bookDto.Subject.Id;
+        book.Authors = authors.Where(a => bookDto.Authors.Select(dto => dto.Id).Contains(a.Id)).ToList();
 
         await _bookRepository.UpdateAsync(book);
     }
@@ -75,5 +75,34 @@ public class BookService : IBookService
     public async Task DeleteAsync(int id)
     {
         await _bookRepository.DeleteAsync(id);
+    }
+
+    public async Task<(List<BookDto> Books, int TotalCount)> GetPaginatedAsync(int pageNumber, int pageSize)
+    {
+        var (books, totalCount) = await _bookRepository.GetPaginatedAsync(
+            pageNumber,
+            pageSize,
+            includeProperties: "Subject,Authors",
+            orderBy: query => query.OrderBy(b => b.Title)
+        );
+        
+        var bookDtos = books.Select(book => new BookDto
+        {
+            Id = book.Id,
+            Title = book.Title,
+            Price = book.Price,
+            Subject = new SubjectDto 
+            { 
+                Id = book.SubjectId, 
+                Name = book.Subject?.Name ?? string.Empty 
+            },
+            Authors = book.Authors.Select(a => new AuthorDto 
+            { 
+                Id = a.Id, 
+                Name = a.Name 
+            }).ToList()
+        }).ToList();
+
+        return (bookDtos, totalCount);
     }
 }
