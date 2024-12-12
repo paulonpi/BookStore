@@ -33,10 +33,14 @@ cd bookstore-app
 Execute o projeto usando Docker Compose:
 docker-compose up --build
 
-Aguarde os contêineres iniciarem. O sistema estará acessível nos seguintes endereços:
+Aguarde os contêineres iniciarem. 
+
+O sistema estará acessível nos seguintes endereços:
 
 Front-End: http://localhost:4200
+
 API (Back-End): http://localhost:5110
+
 Swagger: http://localhost:5110/swagger/index.html
 
 # Configuração do Banco de Dados
