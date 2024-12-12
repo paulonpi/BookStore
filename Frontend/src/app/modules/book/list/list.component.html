@@ -12,8 +12,8 @@
       <div class="book-content">
         <h3 class="book-title">{{book.title}}</h3>
         <div class="book-details">
-          <p class="book-author"><i class="fas fa-user"></i> {{book.author}}</p>
-          <p class="book-subject"><i class="fas fa-bookmark"></i> {{book.subject}}</p>
+          <p class="book-author"><i class="fas fa-user"></i> {{getAuthorNames(book.authors)}}</p>
+          <p class="book-subject"><i class="fas fa-bookmark"></i> {{book.subject.name}}</p>
           <p class="book-price"><i class="fas fa-tag"></i> ${{book.price}}</p>
         </div>
       </div>
@@ -21,8 +21,8 @@
   </div>
 
   <div class="pagination">
-    <button class="pagination-btn">Previous</button>
-    <span class="page-number">Page 1 of 10</span>
-    <button class="pagination-btn">Next</button>
+    <button class="pagination-btn" (click)="previousPage()">Previous</button>
+    <span class="page-number">Page {{currentPage}} of {{totalPages}}</span>
+    <button class="pagination-btn" (click)="nextPage()">Next</button>
   </div>
 </div>

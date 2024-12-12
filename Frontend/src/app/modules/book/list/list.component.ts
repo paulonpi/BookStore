@@ -11,6 +11,10 @@ import { BookService } from '../../../services/book.service';
 export class ListComponent implements OnInit {
 
   books: any[] = [];
+  totalItems: number = 0;
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pageSize: number = 10;
 
   constructor(private bookService: BookService) {}
 
@@ -19,6 +23,32 @@ export class ListComponent implements OnInit {
   }
 
   loadBooks(): void {
-    this.bookService.getBooks().subscribe((data) => this.books = data);
+    this.bookService.getPaginatedBooks(this.currentPage, this.pageSize).subscribe((data) => {
+      this.books = data.books;
+      this.totalItems = data.totalCount;
+      this.calculateTotalPages();
+    });
+  }
+
+  calculateTotalPages() {
+    this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadBooks();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadBooks();
+    }
+  }
+
+  getAuthorNames(authors: any[]): string {
+    return authors.map(author => author.name).join(', ');
   }
 }
