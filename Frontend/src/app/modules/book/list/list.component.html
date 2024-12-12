@@ -1,1 +1,13 @@
-<p>list works!</p>
+<div class="book-list">
+  <h2>Books</h2>
+  <div class="book-grid">
+    <div class="book-card" *ngFor="let book of books">
+      <h3>{{book.title}}</h3>
+      <div class="book-details">
+        <p><strong>Author:</strong> {{book.author}}</p>
+        <p><strong>Subject:</strong> {{book.subject}}</p>
+        <p><strong>Price:</strong> {{book.price}}</p>
+      </div>
+    </div>
+  </div>
+</div>

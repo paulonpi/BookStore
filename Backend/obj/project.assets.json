@@ -5188,11 +5188,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\paulo.gral\\Desktop\\Teste\\Books\\Backend\\BookStore.csproj",
+      "projectUniqueName": "C:\\Users\\paulo.gral\\Desktop\\Teste\\BookStore\\Backend\\BookStore.csproj",
       "projectName": "BookStore",
-      "projectPath": "C:\\Users\\paulo.gral\\Desktop\\Teste\\Books\\Backend\\BookStore.csproj",
+      "projectPath": "C:\\Users\\paulo.gral\\Desktop\\Teste\\BookStore\\Backend\\BookStore.csproj",
       "packagesPath": "C:\\Users\\paulo.gral\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\paulo.gral\\Desktop\\Teste\\Books\\Backend\\obj\\",
+      "outputPath": "C:\\Users\\paulo.gral\\Desktop\\Teste\\BookStore\\Backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\paulo.gral\\AppData\\Roaming\\NuGet\\NuGet.Config"

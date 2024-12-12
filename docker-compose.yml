@@ -16,6 +16,23 @@ services:
       - sql_network
     restart: unless-stopped
 
+  backend:
+    container_name: bookstore_api
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "5110:5110"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5110
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BookStore;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True
+    depends_on:
+      - sqlserver
+    networks:
+      - sql_network
+    restart: unless-stopped
+
 volumes:
   sql_data:
 
