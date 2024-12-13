@@ -36,24 +36,36 @@ public class SubjectService : ISubjectService
         };
     }
 
-    public async Task AddAsync(SubjectDto subjectDto)
+    public async Task<SubjectDto> AddAsync(SubjectDto subjectDto)
     {
         var subject = new Subject
         {
             Name = subjectDto.Name
         };
 
-        await _subjectRepository.AddAsync(subject);
+        var result = await _subjectRepository.AddAsync(subject);
+
+        return new SubjectDto
+        {
+            Id = result.Id,
+            Name = result.Name
+        };
     }
 
-    public async Task UpdateAsync(SubjectDto subjectDto)
+    public async Task<SubjectDto> UpdateAsync(SubjectDto subjectDto)
     {
         var subject = await _subjectRepository.GetByIdAsync(subjectDto.Id);
         if (subject == null) throw new KeyNotFoundException("Subject not found.");
 
         subject.Name = subjectDto.Name;
 
-        await _subjectRepository.UpdateAsync(subject);
+        var result = await _subjectRepository.UpdateAsync(subject);
+
+        return new SubjectDto
+        {
+            Id = result.Id,
+            Name = result.Name
+        };
     }
 
     public async Task DeleteAsync(int id)

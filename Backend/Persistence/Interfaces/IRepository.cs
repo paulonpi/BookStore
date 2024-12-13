@@ -7,8 +7,8 @@ public interface IRepository<T> where T : class
 {
     Task<T?> GetByIdAsync(int id, string? includeProperties = null);  
     Task<IEnumerable<T>> GetAllAsync();
-    Task AddAsync(T entity);
-    Task UpdateAsync(T entity);
+    Task<T> AddAsync(T entity);
+    Task<T> UpdateAsync(T entity);
     Task DeleteAsync(int id);
     Task<(IEnumerable<T> Items, int TotalCount)> GetPaginatedAsync(
         int pageNumber, 

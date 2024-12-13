@@ -42,8 +42,8 @@ export class BookService {
     return this.http.put(`${this.apiUrl}/books/${id}`, book);
   }
 
-  addBook(book: Book): Observable<any> {
-    return this.http.post(`${this.apiUrl}/books`, book);
+  addBook(book: Book): Observable<Book> {
+    return this.http.post<Book>(`${this.apiUrl}/books`, book);
   }
 
   getPaginatedBooks(pageNumber: number, pageSize: number): Observable<PaginatedBooksResponse> {

@@ -6,7 +6,7 @@ public interface ISubjectService
 {
     Task<List<SubjectDto>> GetAllAsync();
     Task<SubjectDto?> GetByIdAsync(int id);
-    Task AddAsync(SubjectDto subjectDto);
-    Task UpdateAsync(SubjectDto subjectDto);
+    Task<SubjectDto> AddAsync(SubjectDto subjectDto);
+    Task<SubjectDto> UpdateAsync(SubjectDto subjectDto);
     Task DeleteAsync(int id);
 }

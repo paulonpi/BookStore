@@ -5,10 +5,11 @@ import { Router, RouterLink } from '@angular/router';
 import { BookService } from '../../../services/book.service';
 import { AuthorService } from '../../../services/author.service';
 import { SubjectService } from '../../../services/subject.service';
-import { Book } from '../../../models/book';
+import { Subject } from '../../../models/subject';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Author } from '../../../models/author';
 
 @Component({
   selector: 'app-add',
@@ -26,21 +27,23 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class AddComponent implements OnInit {
   bookForm: FormGroup;
-  authors: any[] = [];
-  subjects: any[] = [];
+  subjects: Subject[] = []; 
+  authors: Author[] = [];
+  isAddingNewSubject = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private bookService: BookService,
-    private authorService: AuthorService,
     private subjectService: SubjectService,
+    private authorService: AuthorService,
     private router: Router
   ) {
     this.bookForm = this.formBuilder.group({
       title: ['', Validators.required],
-      price: [0, [Validators.required, Validators.min(0)]],
+      price: ['', [Validators.required, Validators.min(0)]],
       subject: ['', Validators.required],
-      authors: [[], Validators.required]
+      authors: [[], Validators.required],
+      newSubject: ['']
     });
   }
 
@@ -80,5 +83,33 @@ export class AddComponent implements OnInit {
         error: (error) => console.error('Error adding book:', error)
       });
     }
+  }
+
+  onSubjectChange(event: any) {
+    if (event.target.value === 'new') {
+      this.isAddingNewSubject = true;
+      this.bookForm.get('subject')?.setValue('');
+    }
+  }
+
+  async saveNewSubject() {
+    const newSubjectName = this.bookForm.get('newSubject')?.value;
+    if (newSubjectName) {
+      const newSubject: Subject = { id: 0, name: newSubjectName };
+      this.subjectService.addSubject(newSubject).subscribe({
+        next: (newSubjectResponse) => {
+          this.subjects.push(newSubjectResponse);
+          this.bookForm.get('subject')?.setValue(newSubjectResponse.id);
+          this.isAddingNewSubject = false;
+          this.bookForm.get('newSubject')?.setValue('');
+        },
+        error: (error) => console.error('Error creating new subject:', error)
+      });
+    }
+  }
+
+  cancelNewSubject() {
+    this.isAddingNewSubject = false;
+    this.bookForm.get('newSubject')?.setValue('');
   }
 }

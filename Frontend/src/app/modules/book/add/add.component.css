@@ -82,3 +82,17 @@ select[multiple] {
   height: 150px;
   padding: 8px;
 }
+
+.subject-container {
+  margin-bottom: 10px;
+}
+
+.new-subject-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.new-subject-input .btn {
+  height: fit-content;
+}
