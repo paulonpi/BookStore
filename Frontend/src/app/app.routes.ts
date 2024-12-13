@@ -1,24 +1,21 @@
 import { Routes } from '@angular/router';
-import { ListComponent } from './modules/book/list/list.component';
-import { EditComponent } from './modules/book/edit/edit.component';
-import { AddComponent } from './modules/book/add/add.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: '/books',
-    pathMatch: 'full'
-  },
-  {
     path: 'books',
-    component: ListComponent,
+    loadChildren: () => import('./modules/book/book.module').then(m => m.BookModule)
   },
   {
-    path: 'books/edit/:id',
-    component: EditComponent
+    path: 'authors',
+    loadChildren: () => import('./modules/author/author.module').then(m => m.AuthorModule)
   },
   {
-    path: 'books/add',
-    component: AddComponent
+    path: 'subjects',
+    loadChildren: () => import('./modules/subject/subject.module').then(m => m.SubjectModule)
+  },
+  {
+    path: '',
+    redirectTo: 'books',
+    pathMatch: 'full'
   }
 ];

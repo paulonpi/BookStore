@@ -1,4 +1,12 @@
 <div class="book-list">
+  <div *ngIf="loading" class="loading">
+    Loading books...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
   <div class="book-list-header">
     <h2>Books Collection</h2>
     <div class="header-actions">

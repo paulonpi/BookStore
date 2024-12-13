@@ -16,6 +16,8 @@ export class ListComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 1;
   pageSize: number = 10;
+  loading: boolean = true;
+  error: string | null = null;
 
   constructor(
     private bookService: BookService,
@@ -31,6 +33,7 @@ export class ListComponent implements OnInit {
       this.books = data.books;
       this.totalItems = data.totalCount;
       this.calculateTotalPages();
+      this.loading = false;
     });
   }
 
@@ -63,6 +66,7 @@ export class ListComponent implements OnInit {
           this.books = this.books.filter(book => book.id !== bookId);
         },
         error: (error) => {
+          this.error = 'Failed to delete book';
           console.error('Error deleting book:', error);
         }
       });

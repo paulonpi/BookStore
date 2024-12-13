@@ -1,1 +1,22 @@
-<p>edit works!</p>
+<div class="add-author-container">
+    <h2>Add New Author</h2>
+    <form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Author Name:</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name" 
+          placeholder="Enter author name"
+        >
+        <div class="error-message" *ngIf="authorForm.get('name')?.errors?.['required'] && authorForm.get('name')?.touched">
+          Author name is required
+        </div>
+        <div class="error-message" *ngIf="authorForm.get('name')?.errors?.['minlength'] && authorForm.get('name')?.touched">
+          Author name must be at least 2 characters long
+        </div>
+      </div>
+      <button type="submit" [disabled]="!authorForm.valid">Update Author</button>
+    </form>
+  </div>
+  
