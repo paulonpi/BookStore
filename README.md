@@ -56,3 +56,38 @@ As migrations do banco de dados são aplicadas automaticamente quando o contêin
 # Uso
 Após iniciar o projeto com docker-compose, abra http://localhost:4200.
 Navegue pela interface para gerenciar autores, livros e assuntos.
+
+# Possíveis Melhorias Futuras
+Se tivesse mais tempo para desenvolver este projeto, aqui estão algumas ideias e funcionalidades que poderiam ser implementadas:
+
+Autenticação e Autorização:
+
+Implementar autenticação para gerenciar o acesso de usuários ao sistema.
+Diferenciar permissões, como usuários administradores e regulares.
+Validação de Dados:
+
+Adicionar validações mais robustas no front-end e back-end para evitar inconsistências nos dados.
+Paginação e Filtros:
+
+Implementar paginação e filtros na listagem de livros para melhorar a experiência do usuário, especialmente em grandes conjuntos de dados.
+Testes Automatizados:
+
+Adicionar cobertura de testes unitários e de integração para aumentar a confiabilidade do sistema.
+Notificações:
+
+Enviar notificações (por e-mail ou push) para usuários sobre alterações ou adições relevantes.
+Deploy em Produção:
+
+Configurar um ambiente de produção com CI/CD, integrando Docker e Kubernetes para escalabilidade.
+Melhorias no Design:
+
+Tornar o design mais responsivo e acessível para diferentes dispositivos.
+Internacionalização:
+
+Adicionar suporte para múltiplos idiomas, como português e inglês.
+Integração com APIs Externas:
+
+Buscar autores ou livros em APIs como Google Books para enriquecer os dados do sistema.
+Relatórios e Analytics:
+
+Criar dashboards para visualização de dados e relatórios, como livros mais populares ou usuários mais ativos.
